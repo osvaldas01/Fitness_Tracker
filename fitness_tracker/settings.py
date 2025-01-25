@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'habits',  # Add this line
+    'habits',
 ]
 
 MIDDLEWARE = [
@@ -55,7 +55,7 @@ ROOT_URLCONF = "fitness_tracker.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / 'templates'],  # Update this line
+        "DIRS": [BASE_DIR / 'templates'],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -84,7 +84,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'fitness_tracker_db',
         'USER': 'postgres',
-        'PASSWORD': '0sva1235Norway',  # Replace with your PostgreSQL password
+        'PASSWORD': 'password',  # Replace with your PostgreSQL password
         'HOST': 'localhost',
         'PORT': '5432',
     }

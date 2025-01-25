@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404  # Add get_object_or_404 here
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Habit, HabitLog
 from django.contrib import messages
@@ -20,8 +20,6 @@ def register(request):
 @login_required
 def habit_list(request):
     habits = Habit.objects.filter(user=request.user)
-    
-    # Calculate dashboard statistics
     total_habits = habits.count()
     weekly_completion_rate = sum(habit.completion_rate for habit in habits) / total_habits if total_habits > 0 else 0
     best_streak = max((habit.current_streak for habit in habits), default=0)
