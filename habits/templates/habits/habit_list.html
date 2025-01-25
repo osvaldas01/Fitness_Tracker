@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>My Habits</h2>
+        <a href="{% url 'habits:habit_add' %}" class="btn btn-success">Add New Habit</a>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-8">
+            <div class="row">
+                {% for habit in habits %}
+                    <div class="col-md-6 mb-4">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ habit.name }}</h5>
+                                <p class="card-text">{{ habit.description }}</p>
+                                <div class="progress mb-3">
+                                    <div class="progress-bar" role="progressbar" 
+                                         style="width: {{ habit.completion_rate }}%"
+                                         aria-valuenow="{{ habit.completion_rate }}" 
+                                         aria-valuemin="0" aria-valuemax="100">
+                                        {{ habit.completion_rate }}%
+                                    </div>
+                                </div>
+                                
+                                {% if habit.latest_log %}
+                                    <div class="alert alert-light mb-3">
+                                        <small class="text-muted">Latest Note ({{ habit.latest_log.date }}):</small>
+                                        <p class="mb-0">{{ habit.latest_log.notes|default:"No notes added" }}</p>
+                                    </div>
+                                {% endif %}
+                                
+                                <p class="card-text">
+                                    <small class="text-muted">Target: {{ habit.target_days_per_week }} days/week</small>
+                                    <br>
+                                    <small class="text-muted">Streak: {{ habit.current_streak }} days</small>
+                                </p>
+                                <div class="d-flex justify-content-between">
+                                    <a href="{% url 'habits:habit_log' habit.id %}" 
+                                       class="btn btn-primary {% if habit.logged_today %}disabled{% endif %}">
+                                        {% if habit.logged_today %}
+                                            Completed Today ✓
+                                        {% else %}
+                                            Log Progress
+                                        {% endif %}
+                                    </a>
+                                    <a href="{% url 'habits:habit_delete' habit.id %}" class="btn btn-outline-danger">Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <div class="col-12">
+                        <div class="alert alert-info">
+                            No habits added yet. <a href="{% url 'habits:habit_add' %}">Add your first habit!</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Progress Dashboard</h5>
+                    <div class="stats-container">
+                        <div class="stat-item mb-3">
+                            <h6>Total Habits</h6>
+                            <p class="h3">{{ total_habits }}</p>
+                        </div>
+                        <div class="stat-item mb-3">
+                            <h6>Weekly Completion Rate</h6>
+                            <p class="h3">{{ weekly_completion_rate }}%</p>
+                        </div>
+                        <div class="stat-item">
+                            <h6>Best Streak</h6>
+                            <p class="h3">{{ best_streak }} days</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
